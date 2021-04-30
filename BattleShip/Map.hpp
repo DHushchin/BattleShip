@@ -5,10 +5,36 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
-
+#include <SFML/Graphics.hpp>
 using namespace std; 
 
 enum BoatSize { Submarine = 1, Destroyer = 2, Battleship = 3, Carrier = 4 };
+
+
+
+class Board
+{
+private:
+    sf::Sprite background;
+    sf::Texture backgroundTexture;
+    sf::Sprite computerGrid;
+    sf::Texture gridTexture;
+    sf::Sprite userGrid;
+    sf::Clock clock;
+    sf::Font font;
+    sf::Text text;
+
+private:
+    const int SIZE = 10;
+    int map[10][10];
+
+public:
+    void Init() {
+        backgroundTexture.loadFromFile("Background.png");
+        background.setTexture(backgroundTexture);
+        background.setPosition(0, 0);
+    }
+};
 
 void initGrid(int map[][10]);
 void printMap(int map[][10]);

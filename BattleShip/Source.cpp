@@ -31,7 +31,6 @@
 
 using namespace std;
 
-
 struct statistics {
     bool gameInProgress;
     int row;
@@ -66,15 +65,59 @@ struct statistics {
     }
 };
 
-
+/*
 void playGame(int CompMap[][10], vector<Boat>& CompBoatList, int UserMap[][10], vector<Boat>& UserBoatList);
 int getSpace(int map[][10], int row, int col);
-void findCoord(int& row, int& col);
-void UserStrike(int map[][10], vector<Boat>& boatList, int& row, int& col, int& space, int& guess, int& miss, int& hit, int& sunk, string& boatname, bool& gameInProgress);
+void UserCoord(int& row, int& col);
+void Strike(int map[][10], vector<Boat>& boatList, int& row, int& col, int& space, int& guess, int& miss, int& hit, int& sunk, string& boatname, bool& gameInProgress);
+void UserTry(int map[][10], int& row, int& col, int& space, int& guess);
+*/
+
 
 
 int main()
 {
+    sf::RenderWindow window(sf::VideoMode(1000, 500), "SFML works!");
+
+    sf::Texture menuTexture, buttonTexture, MapBackTexture;
+    menuTexture.loadFromFile("Background.jpeg");
+    buttonTexture.loadFromFile("play.png");
+    MapBackTexture.loadFromFile("MapBackground.png");
+    sf::Sprite menuSprite(menuTexture), buttonSprite(buttonTexture), MapBackSprite(MapBackTexture);
+    menuSprite.setPosition(0, 0);
+    buttonSprite.setPosition(470, 300);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear();
+        window.draw(menuSprite);
+        window.draw(buttonSprite);
+        window.display();
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            if (buttonSprite.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window))))
+            {
+                window.draw(MapBackSprite);
+                window.display();
+                while (!sf::Keyboard::isKeyPressed(sf::Keyboard::Escape));
+            }
+        }
+        
+    }
+
+
+
+
+    /*
     int CompMap[10][10];
     int UserMap[10][10];
     vector<Boat> CompBoatList;
@@ -82,7 +125,7 @@ int main()
     string play;
     initGrid(CompMap);
     initGrid(UserMap);
-    //printBoard(map); // uncomment to see initialised map
+
     setBoat(CompMap, Carrier, 1, CompBoatList);  
     setBoat(CompMap, Battleship, 2, CompBoatList);
     setBoat(CompMap, Battleship, 3, CompBoatList);
@@ -112,11 +155,13 @@ int main()
     {
         playGame(CompMap, CompBoatList, UserMap, UserBoatList);
     }
+    */
+    //int a; cin >> a;
     return 0;
 }
 
 
-
+/*
 void playGame(int CompMap[][10], vector<Boat>& CompBoatList, int UserMap[][10], vector<Boat>& UserBoatList)
 {
     statistics Comp;
@@ -128,23 +173,25 @@ void playGame(int CompMap[][10], vector<Boat>& CompBoatList, int UserMap[][10], 
         printGameMap(CompMap, "Computer: ");
         //printMap(UserMap);
         //printMap(CompMap);
-        UserStrike(UserMap, UserBoatList, User.row, User.col, User.space, User.guess, User.miss, User.hit, User.sunk, User.boatname, User.gameInProgress);
-        //CompStrike();
+        UserTry(CompMap, User.row, User.col, User.space, User.guess);
+        Strike(CompMap, UserBoatList, User.row, User.col, User.space, User.guess, User.miss, User.hit, User.sunk, User.boatname, User.gameInProgress);
+        CompTry(UserMap, Comp.row, Comp.col, Comp.space, Comp.guess);
+        Strike(UserMap, CompBoatList, Comp.row, Comp.col, Comp.space, Comp.guess, Comp.miss, Comp.hit, Comp.sunk, Comp.boatname, Comp.gameInProgress);
 
-    }//end of while game is playing loop
+    }
 
     if (!Comp.gameInProgress)
         cout << "Thank you for playing! You have sunk all my battleships in " << User.guess << " moves!" << endl;
     else
         cout << "Thank you for playing! I have sunk all your battleships in " << Comp.guess << " moves!" << endl;
-}//end of playGame function
+}
 
 int getSpace(int map[][10], int row, int col)
 {
     return map[row][col];
 }
 
-void findCoord(int& row, int& col) {
+void UserCoord(int& row, int& col) {
     cout << "Enter a row coordinate: ";
     cin >> row;
     cout << "Enter a column coordinate: ";
@@ -153,15 +200,35 @@ void findCoord(int& row, int& col) {
 }
 
 
-void UserStrike(int map[][10], vector<Boat>& boatList, int& row, int& col, int& space, int& guess, int& miss, int& hit, int& sunk, string& boatname, bool& gameInProgress) {
-    findCoord(row, col);
+
+void CompCoord(int& row, int& col) {
+
+}
+
+
+void CompTry(int map[][10], int& row, int& col, int& space, int& guess) {
+    CompCoord(row, col);
     space = getSpace(map, row, col);
 
     while (space == 5) {
-        findCoord(row, col);
+        CompCoord(row, col);
         space = getSpace(map, row, col);
     }
     guess++;
+}
+
+void UserTry(int map[][10], int& row, int& col, int& space, int& guess) {
+    UserCoord(row, col);
+    space = getSpace(map, row, col);
+
+    while (space == 5) {
+        UserCoord(row, col);
+        space = getSpace(map, row, col);
+    }
+    guess++;
+}
+
+void Strike(int map[][10], vector<Boat>& boatList, int& row, int& col, int& space, int& guess, int& miss, int& hit, int& sunk, string& boatname, bool& gameInProgress) {
 
     switch (space)
     {
@@ -306,3 +373,5 @@ void UserStrike(int map[][10], vector<Boat>& boatList, int& row, int& col, int& 
         gameInProgress = false;
     }
 }
+
+*/
