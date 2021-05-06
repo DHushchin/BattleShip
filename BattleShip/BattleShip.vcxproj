@@ -21,11 +21,13 @@
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Boat.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.hpp" />
     <ClInclude Include="Map.hpp" />
+    <ClInclude Include="Boat.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

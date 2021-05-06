@@ -24,12 +24,18 @@
     <ClCompile Include="Map.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Boat.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Map.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Boat.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

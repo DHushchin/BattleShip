@@ -8,9 +8,19 @@ using namespace std;
 class Cell {
 private:
 	sf::Vector2f pos;
-	sf::Texture texture;	
-public:
-	Cell(string TextureName, float x, float y);
-	bool SetUpSprite(string TextureName);
+	sf::Texture texture;
 	sf::Sprite sprite;
+	string TextureName;
+	bool isHit, isMiss, isBorder, isBoat;
+public:
+	Cell(float x, float y);
+	bool SetUpSprite(string TextureName);
+	sf::Sprite getSprite();
+	void setHit();
+	void setMiss();
+	void setBorder();
+	bool getBorder();
+	bool getBlocked();
+	void setBoat();
+	bool getBoat();
 };
