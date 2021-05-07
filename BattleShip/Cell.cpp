@@ -26,12 +26,12 @@ void Cell::setHit() {
 }
 
 void Cell::setMiss() {
-	SetUpSprite("images\\Miss.png");
+	SetUpSprite("images\\Miss.jpg");
 	isMiss = true;
 }
 
 void Cell::setBorder() {
-	SetUpSprite("images\\Miss.png");
+	SetUpSprite("images\\Miss.jpg");
 	isBorder = true;
 }
 
