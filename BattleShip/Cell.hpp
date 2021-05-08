@@ -19,8 +19,13 @@ public:
 	void setHit();
 	void setMiss();
 	void setBorder();
+	void setBoat();
 	bool getBorder();
 	bool getBlocked();
-	void setBoat();
 	bool getBoat();
+	bool getMiss();
+	bool getHit();
+	void color() {
+		sprite.setColor(sf::Color(192, 192, 192));
+	}
 };

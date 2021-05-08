@@ -1,6 +1,8 @@
 #include "Map.hpp"
 
-using namespace std;
+Map::Map() {
+
+}
 
 Map::Map(int i_start, int j_start) {
 	cells.clear();
@@ -35,18 +37,19 @@ void Map::setBoatList() {
 }
 
 
-
 void Map::setBoats() {
 	setBoatList();
 	for (int count = 0; count < BoatList.size(); count++) {
 		BoatList[count].setDirection(rand() % 2);
 		string direction = BoatList[count].getDirection();
 		BoatList[count].setCoords();
+
 		while (FreeSpace(BoatList[count]) == false) {
 			BoatList[count].setDirection(rand() % 2);
 			string direction = BoatList[count].getDirection();
 			BoatList[count].setCoords();
 		}
+
 		if (BoatList[count].getDirection() == "Horizontal")
 			for (int col = BoatList[count].getCol(); col < BoatList[count].getCol() + BoatList[count].getSize(); col++)
 				cells[BoatList[count].getRow()][col]->setBoat();
@@ -63,7 +66,7 @@ bool Map::FreeSpace(Boat& boat) {
 	{
 
 		for (int i = boat.getRow() - 1; i < boat.getRow() + 2; i++)
-			for (int j = boat.getCol() - 1; j < boat.getCol() + boat.getSize() + 2; j++)
+			for (int j = boat.getCol() - 1; j < boat.getCol() + boat.getSize() + 1; j++)
 				if (i < 0 || i >= 10 || j < 0 || j >= 10)
 					continue;
 				else if (cells[i][j]->getBoat() || cells[i][j]->getBlocked() || cells[i][j]->getBorder())
@@ -71,7 +74,7 @@ bool Map::FreeSpace(Boat& boat) {
 	}
 	else
 	{
-		for (int i = boat.getRow() - 1; i < boat.getRow() + boat.getSize() + 2; i++)
+		for (int i = boat.getRow() - 1; i < boat.getRow() + boat.getSize() + 1; i++)
 			for (int j = boat.getCol() - 1; j < boat.getCol() + 2; j++)
 				if (i < 0 || i >= 10 || j < 0 || j >= 10)
 					continue;
@@ -81,7 +84,8 @@ bool Map::FreeSpace(Boat& boat) {
 	return true;
 }
 
-void Map::setClick(const sf::RenderWindow& window) {
+
+void Map::setClick(sf::RenderWindow& window) {
 
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -92,7 +96,43 @@ void Map::setClick(const sf::RenderWindow& window) {
 					else
 						cells[i][j]->setMiss();
 				}
+
+
 			}
 		}
 	}
+
+	for (auto boat : BoatList) {
+		if (boat.isSunk(cells)) {
+			setBorder(boat);
+		}
+	}
+
+}
+
+
+void Map::setBorder(Boat boat) {
+
+	if (boat.getDirection() == "Horizontal")
+	{
+
+		for (int i = boat.getRow() - 1; i < boat.getRow() + 2; i++)
+			for (int j = boat.getCol() - 1; j < boat.getCol() + boat.getSize() + 1; j++)
+				if (i < 0 || i >= 10 || j < 0 || j >= 10)
+					continue;
+				else
+					cells[i][j]->setBorder();
+					
+	}
+	else
+	{
+		for (int i = boat.getRow() - 1; i < boat.getRow() + boat.getSize() + 1; i++)
+			for (int j = boat.getCol() - 1; j < boat.getCol() + 2; j++)
+				if (i < 0 || i >= 10 || j < 0 || j >= 10)
+					continue;
+				else 
+					cells[i][j]->setBorder();
+					
+	}
+
 }

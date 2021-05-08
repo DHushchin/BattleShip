@@ -5,18 +5,18 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-using namespace std;
-
 
 class Map {
 private:
 	vector<vector<Cell*>> cells;
 	vector <Boat> BoatList;
 public:
+	Map();
 	Map(int i_start, int j_start);
 	Cell* getCell(int i, int j);
 	void setBoatList();
 	void setBoats();
 	bool FreeSpace(Boat& boat);
-	void setClick(const sf::RenderWindow& window);
+	void setClick(sf::RenderWindow& window);
+	void setBorder(Boat boat);
 };

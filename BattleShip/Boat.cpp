@@ -1,8 +1,8 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include "Boat.hpp"
 
-using namespace std;
 
 Boat::Boat() {
 	size = col = row = -1;
@@ -90,11 +90,17 @@ int Boat::getSize() {
     return size;
 }
 
-/*
-Boat::Boat(const Boat& other) {
-    this->col = other.col;
-    this->row = other.row;
-    this->Direction = other.Direction;
-    this->size = other.size;
+bool Boat::isSunk(vector<vector<Cell*>>& cells) {
+    if (Direction == "Horizontal") {
+        for (int j = col; j < col + size; j++)
+            if (!cells[row][j]->getHit())
+                return false;
+    }
+    else 
+    {
+        for (int i = row; i < row + size; i++)
+            if (!cells[i][col]->getHit())
+                return false;
+    }
+    return true;
 }
-*/

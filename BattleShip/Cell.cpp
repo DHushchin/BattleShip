@@ -1,6 +1,5 @@
 #include "Cell.hpp"
 
-using namespace std;
 
 Cell::Cell(float x, float y) {
 	isHit = isMiss = isBorder = isBoat = false;
@@ -16,39 +15,59 @@ bool Cell::SetUpSprite(string TextureName) {
 	return true;
 }
 
+
 sf::Sprite Cell::getSprite() {
 	return sprite;
 }
+
 
 void Cell::setHit() {
 	SetUpSprite("images\\Hit.png");
 	isHit = true;
 }
 
+
 void Cell::setMiss() {
 	SetUpSprite("images\\Miss.jpg");
 	isMiss = true;
 }
 
+
 void Cell::setBorder() {
-	SetUpSprite("images\\Miss.jpg");
-	isBorder = true;
+	if (!isBoat) {
+		SetUpSprite("images\\Miss.jpg");
+		isBorder = true;
+	}
 }
 
-bool Cell::getBorder() {
-	return isBorder;
-}
 
 void Cell::setBoat() {
 	SetUpSprite("images\\Ship1.png");
 	isBoat = true;
 }
 
+
+bool Cell::getBorder() {
+	return isBorder;
+}
+
+
+bool Cell::getHit() {
+	return isHit;
+}
+
+
 bool Cell::getBlocked() {
 	return (isHit || isMiss || isBorder);
 }
 
+
 bool Cell::getBoat() {
 	return isBoat;
+}
+
+
+bool Cell::getMiss() {
+	return isMiss;
 }
 

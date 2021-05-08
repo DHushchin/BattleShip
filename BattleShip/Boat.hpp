@@ -1,9 +1,5 @@
 #pragma once
-
 #include "Cell.hpp"
-
-
-using namespace std;
 
 class Boat {
 private:
@@ -20,4 +16,5 @@ public:
 	int getRow();
 	int getCol();
 	int getSize();
+	bool isSunk(vector<vector<Cell*>>& cells);
 };
