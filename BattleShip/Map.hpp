@@ -10,6 +10,8 @@ class Map {
 private:
 	vector<vector<Cell*>> cells;
 	vector <Boat> BoatList;
+	int Hits;
+	bool Over;
 public:
 	Map();
 	Map(int i_start, int j_start);
@@ -17,6 +19,8 @@ public:
 	void setBoatList();
 	void setBoats();
 	bool FreeSpace(Boat& boat);
-	void setClick(sf::RenderWindow& window);
-	void setBorder(Boat boat);
+	void setClick(const sf::RenderWindow& window);
+	void setBorder(Boat& boat);
+	bool isOver();
+	int getHits();
 };

@@ -1,7 +1,7 @@
 #include "Map.hpp"
 
 Map::Map() {
-
+	
 }
 
 Map::Map(int i_start, int j_start) {
@@ -15,6 +15,8 @@ Map::Map(int i_start, int j_start) {
 		cells.push_back(Row);
 	}
 	setBoats();
+	Over = false;
+	Hits = 0;
 }
 
 
@@ -85,21 +87,31 @@ bool Map::FreeSpace(Boat& boat) {
 }
 
 
-void Map::setClick(sf::RenderWindow& window) {
+void Map::setClick(const sf::RenderWindow& window) {
 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (!cells[i][j]->getBlocked()) {
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && cells[i][j]->getSprite().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
-					if (cells[i][j]->getBoat()) 
-						cells[i][j]->setHit();
-					else
-						cells[i][j]->setMiss();
+	bool flag = true;
+
+	while (flag) {
+
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (!cells[i][j]->getBlocked()) {
+					if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && cells[i][j]->getSprite().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+						if (cells[i][j]->getBoat()) {
+							cells[i][j]->setHit();
+							Hits++;
+						}
+						else {
+							cells[i][j]->setMiss();
+						}
+
+						flag = false;
+						break;
+					}
 				}
-
-
 			}
 		}
+
 	}
 
 	for (auto boat : BoatList) {
@@ -108,10 +120,13 @@ void Map::setClick(sf::RenderWindow& window) {
 		}
 	}
 
+	if (Hits == 20) {
+		Over = true;
+	}
 }
 
 
-void Map::setBorder(Boat boat) {
+void Map::setBorder(Boat& boat) {
 
 	if (boat.getDirection() == "Horizontal")
 	{
@@ -135,4 +150,14 @@ void Map::setBorder(Boat boat) {
 					
 	}
 
+}
+
+
+bool Map::isOver() {
+	return Over;
+}
+
+
+int Map::getHits() {
+	return Hits;
 }

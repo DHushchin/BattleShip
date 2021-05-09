@@ -7,18 +7,18 @@
 class Game {
 public:
 	enum class State {
-		User, Computer, Over
+		User, Computer
 	};
 
 private:
 	State state;
-	sf::RenderWindow GameWindow;
 	sf::Texture MapBackTexture, UserFieldTexture, CompFieldTexture;
 	sf::Sprite MapBackSprite, UserFieldSprite, CompFieldSprite;
-	Map UserMap;
-	Map CompMap;
+	Map UserMap, CompMap;
+	bool GameOver;
 public:
 	Game();
 	void Turn();
-	
+	void Play(Map& active, sf::RenderWindow& window);
+	void Result(State& state);
 };
