@@ -19,13 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Boat.cpp" />
+    <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Boat.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Boat.hpp" />
+    <ClInclude Include="Cell.hpp" />
+    <ClInclude Include="Game.hpp" />
     <ClInclude Include="Map.hpp" />
+    <ClInclude Include="Boat.hpp" />
+    <ClInclude Include="Menu.hpp" />
+    <ClInclude Include="Result.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -1,57 +1,106 @@
+#pragma once
+
+#include <SFML/Graphics.hpp>
 #include "Boat.hpp"
 
-using namespace std;
 
-    //Default contstructor
-Boat::Boat(char d, int lgth, vector<int> r, vector<int> c, int hit, string nme)
-{
-    dir = d;
-    length = lgth;
-    boatrow = r;
-    boatcol = c;
-    hits = hit;
-    name = nme;
+Boat::Boat() {
+	size = col = row = -1;
 }
 
-    //set boat hit
-void Boat::setHit()
-{
-    hits++;
+Boat::Boat(int size) {
+	this->size = size;
+    col = row = -1;
 }
 
-int Boat::checkSunk(int BoatSize)
-{
-    if (hits >= BoatSize)
-    {
-        return 9;
-    }
-    else
-    {
-        return 0;
-    }
+void Boat::setDirection(int num) {
+	if (num == 0) 
+		Direction = "Horizontal";
+	else 
+        Direction = "Vertical";
 }
 
-    //get boat grid coordinates
-void Boat::boatCoordinates()
-{
-    cout << "Coordinates for boat " << name << endl << endl;
-    for (int i = 0; i < length; i++)
-    {
-        cout << "Grid [" << boatrow[i] << "][" << boatcol[i] << "]" << endl;
-    }
-    cout << endl;
+string Boat::getDirection() {
+	return Direction;
 }
 
-    //check coordinate bombed to find particular boat
-string Boat::getBoat(int r, int c)
-{
-    for (int i = 0; i < length; i++)
+void Boat::setCoords() {
+
+    switch (size) 
     {
-        if ((boatrow[i] == r) && (boatcol[i] == c))
+    case 1:
+        if (Direction == "Horizontal")
         {
-            return name;
+            col = rand() % 10;
+            row = rand() % 10;
+        }
+        else
+        {
+            col = rand() % 10;
+            row = rand() % 10;
+        }
+        break;
+    case 2:
+        if (Direction == "Horizontal")
+        {
+            col = rand() % 9;
+            row = rand() % 10;
+        }
+        else
+        {
+            col = rand() % 10;
+            row = rand() % 9;
+        }
+        break;
+    case 3:
+        if (Direction == "Horizontal")
+        {
+            col = rand() % 8;
+            row = rand() % 10;
+        }
+        else
+        {
+            col = rand() % 10;
+            row = rand() % 8;
+        }
+        break;
+    case 4:
+        if (Direction == "Horizontal")
+        {
+            col = rand() % 7;
+            row = rand() % 10;
+        }
+        else
+        {
+            col = rand() % 10;
+            row = rand() % 7;
         }
     }
-    return "";
 }
 
+int Boat::getRow() {
+    return row;
+}
+
+int Boat::getCol() {
+    return col;
+}
+
+int Boat::getSize() {
+    return size;
+}
+
+bool Boat::isSunk(vector<vector<Cell*>>& cells) {
+    if (Direction == "Horizontal") {
+        for (int j = col; j < col + size; j++)
+            if (!cells[row][j]->getHit())
+                return false;
+    }
+    else 
+    {
+        for (int i = row; i < row + size; i++)
+            if (!cells[i][col]->getHit())
+                return false;
+    }
+    return true;
+}
