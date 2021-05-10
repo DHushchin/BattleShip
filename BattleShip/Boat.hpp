@@ -9,7 +9,6 @@ private:
 public:
 	Boat();
 	Boat(int size);
-	//Boat(const Boat& other);
 	void setDirection(int num);
 	string getDirection();
 	void setCoords();

@@ -6,6 +6,7 @@ private:
 	sf::RenderWindow MenuWindow;
 	sf::Texture menuTexture, buttonTexture;
 	sf::Sprite menuSprite, buttonSprite;
+	sf::Event MenuEvent{};
 public:
 	Menu();
 };

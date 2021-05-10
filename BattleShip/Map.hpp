@@ -19,7 +19,7 @@ public:
 	void setBoatList();
 	void setBoats();
 	bool FreeSpace(Boat& boat);
-	void setClick(const sf::RenderWindow& window);
+	bool setClick(sf::RenderWindow& window, sf::Event& GameEvent, sf::RenderWindow& MenuWindow);
 	void setBorder(Boat& boat);
 	bool isOver();
 	int getHits();

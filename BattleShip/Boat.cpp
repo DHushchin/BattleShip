@@ -26,7 +26,7 @@ string Boat::getDirection() {
 
 void Boat::setCoords() {
 
-    switch (size) //Generate random column and row based on boat size so we don't go over the edge of the grid
+    switch (size) 
     {
     case 1:
         if (Direction == "Horizontal")

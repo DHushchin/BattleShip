@@ -1,7 +1,10 @@
 #include "Map.hpp"
 
+using namespace sf;
+
 Map::Map() {
-	
+	Over = false;
+	Hits = 0;
 }
 
 Map::Map(int i_start, int j_start) {
@@ -9,7 +12,7 @@ Map::Map(int i_start, int j_start) {
 	for (int i = 0, i_shift = i_start; i < 10; i++, i_shift += 49) {
 		vector <Cell*> Row;
 		for (int j = 0, j_shift = j_start; j < 10; j++, j_shift += 49) {
-			Row.push_back(new Cell(j_shift, i_shift));
+			Row.push_back(new Cell((float) j_shift, (float) i_shift));
 			Row[j]->SetUpSprite("images\\Cell.png");
 		}
 		cells.push_back(Row);
@@ -41,7 +44,7 @@ void Map::setBoatList() {
 
 void Map::setBoats() {
 	setBoatList();
-	for (int count = 0; count < BoatList.size(); count++) {
+	for (size_t count = 0; count < BoatList.size(); count++) {
 		BoatList[count].setDirection(rand() % 2);
 		string direction = BoatList[count].getDirection();
 		BoatList[count].setCoords();
@@ -87,25 +90,34 @@ bool Map::FreeSpace(Boat& boat) {
 }
 
 
-void Map::setClick(const sf::RenderWindow& window) {
+bool Map::setClick(RenderWindow& window, Event& GameEvent, RenderWindow& MenuWindow) {
 
-	bool flag = true;
+	bool strike = true, isHit = false;
 
-	while (flag) {
+	while (strike) {
+
+		while (window.pollEvent(GameEvent)) {
+			if (GameEvent.type == Event::Closed) {
+				window.close();
+				MenuWindow.close();
+			}			
+		}
+			
 
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (!cells[i][j]->getBlocked()) {
-					if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && cells[i][j]->getSprite().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+					if (Mouse::isButtonPressed(Mouse::Left) && cells[i][j]->getSprite().getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window)))) {
 						if (cells[i][j]->getBoat()) {
 							cells[i][j]->setHit();
 							Hits++;
+							isHit = true;
 						}
 						else {
 							cells[i][j]->setMiss();
 						}
 
-						flag = false;
+						strike = false;
 						break;
 					}
 				}
@@ -123,6 +135,8 @@ void Map::setClick(const sf::RenderWindow& window) {
 	if (Hits == 20) {
 		Over = true;
 	}
+
+	return isHit;
 }
 
 

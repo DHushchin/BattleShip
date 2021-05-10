@@ -17,22 +17,22 @@ Menu::Menu() {
 
     while (MenuWindow.isOpen())
     {
-        Event event;
-        while (MenuWindow.pollEvent(event)) {
-            if (event.type == Event::Closed) {
+        
+        while (MenuWindow.pollEvent(MenuEvent)) {
+            if (MenuEvent.type == Event::Closed) {
                 MenuWindow.close();
             }
         }
 
+        if (Mouse::isButtonPressed(Mouse::Left) && buttonSprite.getGlobalBounds().contains(MenuWindow.mapPixelToCoords(Mouse::getPosition(MenuWindow)))) {
+            Game game(MenuWindow);
+        }
 
         MenuWindow.clear();
         MenuWindow.draw(menuSprite);
         MenuWindow.draw(buttonSprite);
-        MenuWindow.display();
-
-        if (Mouse::isButtonPressed(Mouse::Left) && buttonSprite.getGlobalBounds().contains(MenuWindow.mapPixelToCoords(Mouse::getPosition(MenuWindow)))) {
-            Game game;
-        }
-
+        MenuWindow.display();  
+        
     }
 }
+
