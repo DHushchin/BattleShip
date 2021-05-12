@@ -30,6 +30,7 @@ Game::Game(RenderWindow& MenuWindow) {
     srand((unsigned int)time(NULL));
     Map UserMap(49, 49);
     Map CompMap(49, 686);
+    Computer Comp;
 
     while (GameWindow.isOpen() && !GameOver) {
 
@@ -53,11 +54,18 @@ Game::Game(RenderWindow& MenuWindow) {
 
         GameWindow.display();
 
+
         if (state == State::User) {
-            Play(CompMap, GameWindow, MenuWindow);
+            Player(CompMap, GameWindow, MenuWindow);
         }
         else {
-            Play(UserMap, GameWindow, MenuWindow);
+            //Player(UserMap, GameWindow, MenuWindow);
+            sleep(sf::milliseconds(1000));
+            if (!Comp.Strike(UserMap))
+                Turn();
+            GameOver = UserMap.isOver();
+            if (GameOver)
+                Result res(state);
         }
     }
 
@@ -72,15 +80,15 @@ void Game::Turn() {
 }
 
 
-void Game::Play(Map& CurrPlayer, RenderWindow& MapWindow, RenderWindow& MenuWindow) {
+void Game::Player(Map& CompMap, RenderWindow& MapWindow, RenderWindow& MenuWindow) {
         
-    bool isHit = CurrPlayer.setClick(MapWindow, GameEvent, MenuWindow);
-    
-    GameOver = CurrPlayer.isOver();
+    bool isHit = CompMap.setClick(MapWindow, GameEvent, MenuWindow);
 
-    if (GameOver) {
+    GameOver = CompMap.isOver();
+
+    if (GameOver) 
         Result res(state);
-    }
-    else if (!isHit)
+    
+    if (!isHit)
         Turn();
 }

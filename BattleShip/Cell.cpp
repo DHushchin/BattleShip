@@ -67,7 +67,4 @@ bool Cell::getBoat() {
 }
 
 
-bool Cell::getMiss() {
-	return isMiss;
-}
 

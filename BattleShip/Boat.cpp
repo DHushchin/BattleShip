@@ -104,3 +104,10 @@ bool Boat::isSunk(vector<vector<Cell*>>& cells) {
     }
     return true;
 }
+
+bool Boat::operator==(const Boat& other) {
+    if (this->Direction == other.Direction && this->row == other.row && this->col == other.col && this->size == other.size)
+        return true;
+    else
+        return false;
+}

@@ -23,7 +23,6 @@ public:
 	bool getBorder();
 	bool getBlocked();
 	bool getBoat();
-	bool getMiss();
 	bool getHit();
 	void color() {
 		sprite.setColor(sf::Color(192, 192, 192));
