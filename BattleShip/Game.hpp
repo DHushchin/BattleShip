@@ -3,15 +3,15 @@
 #include "Boat.hpp"
 #include "Map.hpp"
 #include "Menu.hpp"
+#include "AI.hpp"
+
 enum class State {
 	User, Computer
 };
 
 class Game {
-public:
 
-
-public:
+private:
 	State state;
 	sf::RenderWindow GameWindow;
 	sf::Texture MapBackTexture, UserFieldTexture, CompFieldTexture;
@@ -23,7 +23,7 @@ public:
 	Game();
 	Game(sf::RenderWindow& MenuWindow);
 	void Turn();
-	void Play(Map& active, sf::RenderWindow& window, sf::RenderWindow& MenuWindow);
+	void Player(Map& CompMap, sf::RenderWindow& window, sf::RenderWindow& MenuWindow);
 };
 
 

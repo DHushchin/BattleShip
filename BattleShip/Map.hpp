@@ -9,7 +9,7 @@
 class Map {
 private:
 	vector<vector<Cell*>> cells;
-	vector <Boat> BoatList;
+	vector <Boat> BoatList, SunkList;
 	int Hits;
 	bool Over;
 public:
@@ -23,4 +23,7 @@ public:
 	void setBorder(Boat& boat);
 	bool isOver();
 	int getHits();
+	int getSunk();
+	bool Strike(int i, int j);
+	bool Contains(Boat& boat);
 };

@@ -1,4 +1,5 @@
 #include "Map.hpp"
+#include <algorithm>
 
 using namespace sf;
 
@@ -25,6 +26,19 @@ Map::Map(int i_start, int j_start) {
 
 Cell* Map::getCell(int i, int j) {
 	return cells[i][j];
+}
+
+bool Map::isOver() {
+	return Over;
+}
+
+
+int Map::getHits() {
+	return Hits;
+}
+
+int Map::getSunk() {
+	return SunkList.size();
 }
 
 
@@ -92,9 +106,9 @@ bool Map::FreeSpace(Boat& boat) {
 
 bool Map::setClick(RenderWindow& window, Event& GameEvent, RenderWindow& MenuWindow) {
 
-	bool strike = true, isHit = false;
+	bool repeat = true, isHit = false;
 
-	while (strike) {
+	while (repeat) {
 
 		while (window.pollEvent(GameEvent)) {
 			if (GameEvent.type == Event::Closed) {
@@ -103,37 +117,17 @@ bool Map::setClick(RenderWindow& window, Event& GameEvent, RenderWindow& MenuWin
 			}			
 		}
 			
-
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				if (!cells[i][j]->getBlocked()) {
 					if (Mouse::isButtonPressed(Mouse::Left) && cells[i][j]->getSprite().getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window)))) {
-						if (cells[i][j]->getBoat()) {
-							cells[i][j]->setHit();
-							Hits++;
-							isHit = true;
-						}
-						else {
-							cells[i][j]->setMiss();
-						}
-
-						strike = false;
+						isHit = Strike(i, j);
+						repeat = false;
 						break;
 					}
 				}
 			}
 		}
-
-	}
-
-	for (auto boat : BoatList) {
-		if (boat.isSunk(cells)) {
-			setBorder(boat);
-		}
-	}
-
-	if (Hits == 20) {
-		Over = true;
 	}
 
 	return isHit;
@@ -167,11 +161,40 @@ void Map::setBorder(Boat& boat) {
 }
 
 
-bool Map::isOver() {
-	return Over;
+bool Map::Strike(int i, int j) {
+
+	int flag;
+
+	if (cells[i][j]->getBoat()) {
+		cells[i][j]->setHit();
+		Hits++;
+		flag = true;
+	}
+	else {
+		cells[i][j]->setMiss();
+		flag = false;
+	}
+
+	for (auto boat : BoatList) {
+		if (boat.isSunk(cells) && !(Contains(boat))) {
+			setBorder(boat);
+			SunkList.push_back(boat);
+		}
+	}
+
+	if (Hits == 20)
+		Over = true;
+
+	return flag;
 }
 
 
-int Map::getHits() {
-	return Hits;
+bool Map::Contains(Boat& boat) {
+	for (Boat SunkBoat : SunkList)
+		if (SunkBoat == boat)
+			return true;
+	return false;
 }
+
+
+

@@ -3,9 +3,8 @@
 
 class Boat {
 private:
-	int size;
 	string Direction;
-	int row, col;
+	int row, col, size;
 public:
 	Boat();
 	Boat(int size);
@@ -16,4 +15,5 @@ public:
 	int getCol();
 	int getSize();
 	bool isSunk(vector<vector<Cell*>>& cells);
+	bool operator==(const Boat& other);
 };
