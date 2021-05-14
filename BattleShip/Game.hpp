@@ -19,11 +19,12 @@ private:
 	sf::Event GameEvent{};
 	Map UserMap, CompMap;
 	bool GameOver;
+	sf::Music music;
 public:
 	Game();
 	Game(sf::RenderWindow& MenuWindow);
 	void Turn();
-	void Player(Map& CompMap, sf::RenderWindow& window, sf::RenderWindow& MenuWindow);
+	bool Player(Map& CompMap, sf::RenderWindow& window, sf::RenderWindow& MenuWindow, bool& isSunk);
 };
 
 

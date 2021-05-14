@@ -10,7 +10,7 @@ private:
 	Texture ResTexture;
 	Sprite ResSprite;
 	Event ResEvent{};
-
+	Music music;
 public:
 	Result();
 	Result(State& state);

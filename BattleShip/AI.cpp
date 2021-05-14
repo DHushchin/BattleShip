@@ -2,22 +2,29 @@
 
 Computer::Computer() {
     i = j = prev_i = prev_j = -1;
-    isHit = false;
+    isHit = PrevHit = Finish = ChangeDir = false;
     dir = Direction::up;
     PrevSunk = true;
     sunk = 0;
 }
 
 
-bool Computer::Strike(Map& UserMap) {
-
-    DetectCoords(UserMap);
-    while (i < 0 || i >= 10 || j < 0 || j >= 10) {
+bool Computer::Strike(Map& UserMap, bool& isSunk) {
+    ChangeDir - false;
+    if (!PrevHit && !PrevSunk && !Finish) {
         ChangeDirection();
+        ChangeDir = true;
+    }
+    DetectCoords(UserMap);
+    while (i < 0 || i >= 10 || j < 0 || j >= 10 || UserMap.getCell(i, j)->getBlocked()) {
+        if (!Finish && !PrevSunk) {
+            ChangeDirection();
+            ChangeDir = true;
+        }
         DetectCoords(UserMap);
     }
 
-    isHit = UserMap.Strike(i, j);
+    isHit = UserMap.Strike(i, j, isSunk);
 
     if (isHit) {
         if (UserMap.getSunk() > sunk) {
@@ -29,15 +36,18 @@ bool Computer::Strike(Map& UserMap) {
             PrevSunk = false;
         }
     }
-    else if (!isHit && !PrevSunk) {
-        ChangeDirection();
-    }
-
+    
+    if (PrevHit && !isHit && !ChangeDir)
+        Finish = true;
+    else
+        Finish = false;
+    PrevHit = isHit;
     return isHit;
 }
 
-void Computer::DetectCoords(Map& UserMap){
-    if (!PrevSunk) {
+
+void Computer::DetectCoords(Map& UserMap) {
+    if (!PrevSunk && !Finish) {
         switch (dir) {
         case Direction::up:
             i = prev_i - 1;
@@ -57,6 +67,28 @@ void Computer::DetectCoords(Map& UserMap){
             break;
         }
     }
+    else if (!PrevSunk && Finish) {
+        if (dir == Direction::down) {
+            while (UserMap.getCell(i, j)->getBlocked()) {
+                --i;
+            }
+        }
+        else if (dir == Direction::up) {
+            while (UserMap.getCell(i, j)->getBlocked()) {
+                ++i;
+            }
+        }
+        else if (dir == Direction::left) {
+            while (UserMap.getCell(i, j)->getBlocked()) {
+                ++j;
+            }
+        }
+        else if (dir == Direction::right) {
+            while (UserMap.getCell(i, j)->getBlocked()) {
+                --j;
+            }
+        }
+    }
     else {
         i = rand() % 10;
         j = rand() % 10;
@@ -67,6 +99,7 @@ void Computer::DetectCoords(Map& UserMap){
         }
     }
 }
+
 
 void Computer::ChangeDirection() {
     switch (dir) {
@@ -84,3 +117,4 @@ void Computer::ChangeDirection() {
         break;
     }
 }
+

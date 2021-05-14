@@ -1,5 +1,4 @@
 #include "Map.hpp"
-#include <algorithm>
 
 using namespace sf;
 
@@ -104,7 +103,7 @@ bool Map::FreeSpace(Boat& boat) {
 }
 
 
-bool Map::setClick(RenderWindow& window, Event& GameEvent, RenderWindow& MenuWindow) {
+bool Map::setClick(RenderWindow& window, Event& GameEvent, RenderWindow& MenuWindow, bool& isSunk) {
 
 	bool repeat = true, isHit = false;
 
@@ -121,7 +120,7 @@ bool Map::setClick(RenderWindow& window, Event& GameEvent, RenderWindow& MenuWin
 			for (int j = 0; j < 10; j++) {
 				if (!cells[i][j]->getBlocked()) {
 					if (Mouse::isButtonPressed(Mouse::Left) && cells[i][j]->getSprite().getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window)))) {
-						isHit = Strike(i, j);
+						isHit = Strike(i, j, isSunk);
 						repeat = false;
 						break;
 					}
@@ -161,7 +160,7 @@ void Map::setBorder(Boat& boat) {
 }
 
 
-bool Map::Strike(int i, int j) {
+bool Map::Strike(int i, int j, bool& isSunk) {
 
 	int flag;
 
@@ -175,10 +174,13 @@ bool Map::Strike(int i, int j) {
 		flag = false;
 	}
 
+	isSunk = false;
 	for (auto boat : BoatList) {
 		if (boat.isSunk(cells) && !(Contains(boat))) {
 			setBorder(boat);
 			SunkList.push_back(boat);
+			isSunk = true;
+			break;
 		}
 	}
 
@@ -195,6 +197,4 @@ bool Map::Contains(Boat& boat) {
 			return true;
 	return false;
 }
-
-
 

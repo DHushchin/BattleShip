@@ -12,11 +12,13 @@ Result::Result(State& state) {
 
     if (state == State::User) {
         ResTexture.loadFromFile("images\\Winner.jpg");
+        music.openFromFile("sounds\\Ta_Da.wav");
     }
     else {
         ResTexture.loadFromFile("images\\Loser.jpg");
-    }
-    
+        music.openFromFile("sounds\\sea_gulls.wav");
+    }      
+    music.play();
     ResSprite.setTexture(ResTexture);
     ResSprite.setPosition(0, 0);
 
@@ -30,5 +32,6 @@ Result::Result(State& state) {
         ResWindow.clear();
         ResWindow.draw(ResSprite);
         ResWindow.display();
+ 
     }
 }
