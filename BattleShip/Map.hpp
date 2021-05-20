@@ -15,10 +15,10 @@ private:
 	vector<vector<Cell*>> cells;
 	vector <Boat> BoatList, SunkList;
 	int Hits;
-	bool Over;
+	bool Over, ShowBoats;
 public:
 	Map();
-	Map(int i_start, int j_start);
+	Map(int i_start, int j_start, bool ShowBoats);
 	Cell* getCell(int i, int j);
 	void setBoatList();
 	void setBoats();

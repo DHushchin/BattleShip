@@ -7,7 +7,7 @@ Map::Map() {
 	Hits = 0;
 }
 
-Map::Map(int i_start, int j_start) {
+Map::Map(int i_start, int j_start, bool ShowBoats) {
 	cells.clear();
 	for (int i = 0, i_shift = i_start; i < 10; i++, i_shift += 49) {
 		vector <Cell*> Row;
@@ -17,6 +17,7 @@ Map::Map(int i_start, int j_start) {
 		}
 		cells.push_back(Row);
 	}
+	this->ShowBoats = ShowBoats;
 	setBoats();
 	Over = false;
 	Hits = 0;
@@ -69,12 +70,18 @@ void Map::setBoats() {
 		}
 
 		if (BoatList[count].getDirection() == "Horizontal")
-			for (int col = BoatList[count].getCol(); col < BoatList[count].getCol() + BoatList[count].getSize(); col++)
+			for (int col = BoatList[count].getCol(); col < BoatList[count].getCol() + BoatList[count].getSize(); col++) {
 				cells[BoatList[count].getRow()][col]->setBoat();
+				if (ShowBoats)
+					cells[BoatList[count].getRow()][col]->SetUpSprite("images\\Ship1.png");
+			}
 
 		else
-			for (int row = BoatList[count].getRow(); row < BoatList[count].getRow() + BoatList[count].getSize(); row++)
+			for (int row = BoatList[count].getRow(); row < BoatList[count].getRow() + BoatList[count].getSize(); row++) {
 				cells[row][BoatList[count].getCol()]->setBoat();
+				if (ShowBoats)
+					cells[row][BoatList[count].getCol()]->SetUpSprite("images\\Ship1.png");
+			}
 	}
 }
 

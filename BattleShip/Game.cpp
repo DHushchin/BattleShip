@@ -28,8 +28,8 @@ Game::Game(RenderWindow& MenuWindow) {
     CompFieldSprite.setPosition(637, 0);
 
     srand((unsigned int)time(NULL));
-    Map UserMap(49, 49);
-    Map CompMap(49, 686);
+    Map UserMap(49, 49, true);
+    Map CompMap(49, 686, false);
     Computer Comp;
     int iter = 0;
     while (GameWindow.isOpen() && !GameOver) {

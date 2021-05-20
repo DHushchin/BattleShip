@@ -42,7 +42,6 @@ void Cell::setBorder() {
 
 
 void Cell::setBoat() {
-	SetUpSprite("images\\Ship1.png");
 	isBoat = true;
 }
 
