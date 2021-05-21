@@ -10,7 +10,6 @@ enum class State {
 };
 
 class Game {
-
 private:
 	State state;
 	sf::RenderWindow GameWindow;
@@ -26,6 +25,3 @@ public:
 	void Turn();
 	bool Player(Map& CompMap, sf::RenderWindow& window, sf::RenderWindow& MenuWindow, bool& isSunk);
 };
-
-
-

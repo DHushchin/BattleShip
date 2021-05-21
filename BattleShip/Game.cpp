@@ -59,6 +59,15 @@ Game::Game(RenderWindow& MenuWindow) {
         else
             music.play();
 
+        GameOver = UserMap.isOver() || CompMap.isOver();
+        if (GameOver) {
+            if (state == State::User)
+                music.openFromFile("sounds\\Ta_Da.wav");
+            else
+                music.openFromFile("sounds\\sea_gulls.wav");
+            Result res(state);
+        }
+
         bool isSunk = false;
         if (state == State::User) {
             if (Player(CompMap, GameWindow, MenuWindow, isSunk)) {
@@ -67,33 +76,26 @@ Game::Game(RenderWindow& MenuWindow) {
                 else
                     music.openFromFile("sounds\\bomb.wav");
             }
-            else {
-                music.openFromFile("sounds\\water_drop.wav");
-            }            
+            else 
+                music.openFromFile("sounds\\water_drop.wav");            
         }
         else {
             sleep(sf::milliseconds(1000));
             if (Comp.Strike(UserMap, isSunk)) {
                 if (!isSunk)
                     music.openFromFile("sounds\\short_pen.wav");
-                else
+                else {
                     music.openFromFile("sounds\\bomb.wav");
+                    vector<pair<int, int>> coords = UserMap.getBorderCoords();
+                    Comp.UpdateTacticList(UserMap, coords);
+                }
             }
             else {
                music.openFromFile("sounds\\water_drop.wav");
                 Turn();
             }
-            GameOver = UserMap.isOver();
-            if (GameOver) {
-                if (state == State::User) {
-                    music.openFromFile("sounds\\Ta_Da.wav");
-                }
-                else {
-                    music.openFromFile("sounds\\sea_gulls.wav");
-                }
-                Result res(state);
-            }
         }
+
     }
 
 }
@@ -110,12 +112,7 @@ void Game::Turn() {
 bool Game::Player(Map& CompMap, RenderWindow& MapWindow, RenderWindow& MenuWindow, bool& isSunk) {
         
     bool isHit = CompMap.setClick(MapWindow, GameEvent, MenuWindow, isSunk);
-
-    GameOver = CompMap.isOver();
-
-    if (GameOver) 
-        Result res(state);
-    
+   
     if (!isHit) 
         Turn();
     

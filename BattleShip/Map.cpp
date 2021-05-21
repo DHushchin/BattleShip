@@ -3,7 +3,8 @@
 using namespace sf;
 
 Map::Map() {
-	Over = false;
+	Over = Border = false;
+	ShowBoats = true;
 	Hits = 0;
 }
 
@@ -37,7 +38,7 @@ int Map::getHits() {
 	return Hits;
 }
 
-int Map::getSunk() {
+int Map::getSunkNumber() {
 	return SunkList.size();
 }
 
@@ -144,14 +145,12 @@ void Map::setBorder(Boat& boat) {
 
 	if (boat.getDirection() == "Horizontal")
 	{
-
 		for (int i = boat.getRow() - 1; i < boat.getRow() + 2; i++)
 			for (int j = boat.getCol() - 1; j < boat.getCol() + boat.getSize() + 1; j++)
 				if (i < 0 || i >= 10 || j < 0 || j >= 10)
 					continue;
-				else
-					cells[i][j]->setBorder();
-					
+				else 
+					cells[i][j]->setBorder();				
 	}
 	else
 	{
@@ -160,16 +159,48 @@ void Map::setBorder(Boat& boat) {
 				if (i < 0 || i >= 10 || j < 0 || j >= 10)
 					continue;
 				else 
-					cells[i][j]->setBorder();
-					
+					cells[i][j]->setBorder();				
 	}
+}
 
+
+void Map::setBorderCoords(Boat& boat) {
+	if (boat.getDirection() == "Horizontal")
+	{
+		for (int row = boat.getRow() - 1; row < boat.getRow() + 2; row++)
+			for (int col = boat.getCol() - 1; col < boat.getCol() + boat.getSize() + 1; col++) {
+				if (row < 0 || row >= 10 || col < 0 || col >= 10)
+					continue;
+				else {
+					pair <int, int> temp(row, col);
+					BorderCoords.push_back(temp);
+				}
+			}
+	}
+	else
+	{
+		for (int row = boat.getRow() - 1; row < boat.getRow() + boat.getSize() + 1; row++)
+			for (int col = boat.getCol() - 1; col < boat.getCol() + 2; col++) {
+				if (row < 0 || row >= 10 || col < 0 || col >= 10)
+					continue;
+				else {
+					pair <int, int> temp(row, col);
+					BorderCoords.push_back(temp);
+				}
+			}
+	}
+}
+
+
+vector<pair<int, int>> Map::getBorderCoords() {
+	return BorderCoords;
 }
 
 
 bool Map::Strike(int i, int j, bool& isSunk) {
 
 	int flag;
+	Border = false;
 
 	if (cells[i][j]->getBoat()) {
 		cells[i][j]->setHit();
@@ -182,11 +213,14 @@ bool Map::Strike(int i, int j, bool& isSunk) {
 	}
 
 	isSunk = false;
-	for (auto boat : BoatList) {
-		if (boat.isSunk(cells) && !(Contains(boat))) {
-			setBorder(boat);
-			SunkList.push_back(boat);
-			isSunk = true;
+	for (size_t i = 0; i < BoatList.size(); i++) {
+		if (BoatList[i].isSunk(cells) && !(Contains(BoatList[i]))) {
+			setBorder(BoatList[i]);
+			BorderCoords.clear();
+			setBorderCoords(BoatList[i]);
+			SunkList.push_back(BoatList[i]);
+			BoatList.erase(BoatList.begin() + i);
+			isSunk = Border = true;
 			break;
 		}
 	}
@@ -204,4 +238,5 @@ bool Map::Contains(Boat& boat) {
 			return true;
 	return false;
 }
+
 

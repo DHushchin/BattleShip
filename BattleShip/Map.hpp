@@ -6,16 +6,14 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 
-enum class Direction {
-	up, down, right, left
-};
 
 class Map {
 private:
 	vector<vector<Cell*>> cells;
 	vector <Boat> BoatList, SunkList;
+	vector<pair<int, int>> BorderCoords;
 	int Hits;
-	bool Over, ShowBoats;
+	bool Over, ShowBoats, Border;
 public:
 	Map();
 	Map(int i_start, int j_start, bool ShowBoats);
@@ -24,10 +22,12 @@ public:
 	void setBoats();
 	bool FreeSpace(Boat& boat);
 	bool setClick(sf::RenderWindow& window, sf::Event& GameEvent, sf::RenderWindow& MenuWindow, bool& isSunk);
+	void setBorderCoords(Boat& boat);
+	vector<pair<int, int>> getBorderCoords();
 	void setBorder(Boat& boat);
 	bool isOver();
 	int getHits();
-	int getSunk();
+	int getSunkNumber();
 	bool Strike(int i, int j, bool& isSunk);
 	bool Contains(Boat& boat);
 };
