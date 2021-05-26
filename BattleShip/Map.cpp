@@ -13,7 +13,7 @@ Map::Map(int i_start, int j_start, bool ShowBoats) {
 	for (int i = 0, i_shift = i_start; i < 10; i++, i_shift += 49) {
 		vector <Cell*> Row;
 		for (int j = 0, j_shift = j_start; j < 10; j++, j_shift += 49) {
-			Row.push_back(new Cell((float) j_shift, (float) i_shift));
+			Row.push_back(new Cell((float)j_shift, (float)i_shift));
 			Row[j]->SetUpSprite("images\\Cell.png");
 		}
 		cells.push_back(Row);
@@ -33,10 +33,6 @@ bool Map::isOver() {
 	return Over;
 }
 
-
-int Map::getHits() {
-	return Hits;
-}
 
 int Map::getSunkNumber() {
 	return SunkList.size();
@@ -167,7 +163,7 @@ void Map::setBorder(Boat& boat) {
 void Map::setBorderCoords(Boat& boat) {
 	if (boat.getDirection() == "Horizontal")
 	{
-		for (int row = boat.getRow() - 1; row < boat.getRow() + 2; row++)
+		for (int row = boat.getRow() - 1; row < boat.getRow() + 2; row++) {
 			for (int col = boat.getCol() - 1; col < boat.getCol() + boat.getSize() + 1; col++) {
 				if (row < 0 || row >= 10 || col < 0 || col >= 10)
 					continue;
@@ -176,10 +172,11 @@ void Map::setBorderCoords(Boat& boat) {
 					BorderCoords.push_back(temp);
 				}
 			}
+		}
 	}
 	else
 	{
-		for (int row = boat.getRow() - 1; row < boat.getRow() + boat.getSize() + 1; row++)
+		for (int row = boat.getRow() - 1; row < boat.getRow() + boat.getSize() + 1; row++) {
 			for (int col = boat.getCol() - 1; col < boat.getCol() + 2; col++) {
 				if (row < 0 || row >= 10 || col < 0 || col >= 10)
 					continue;
@@ -188,6 +185,7 @@ void Map::setBorderCoords(Boat& boat) {
 					BorderCoords.push_back(temp);
 				}
 			}
+		}
 	}
 }
 

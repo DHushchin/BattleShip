@@ -5,15 +5,14 @@
 
 using namespace std;
 
-enum class Tactics {
-	diagonals, improved_locator, chesses, random 
-};
-
-enum class Direction {
-	up, down, right, left
-};
-
 class Computer {
+private:
+	enum class Tactics {
+		diagonals, improved_locator, chesses, random
+	};
+	enum class Direction {
+		up, down, right, left
+	};
 private:
 	Direction dir;
 	Tactics CurrStrategy;
@@ -25,20 +24,19 @@ private:
 	bool PrevSunk;
 	vector <pair<int, int>> diagonals;
 	vector <pair<int, int>> improved_locator;
-
-public:
-	Computer();
-	bool Strike(Map& UserMap, bool& isSunk);
+private:
 	void DetectCoords(Map& UserMap);
 	void ChangeFireDirection();
 	void OppositeFireDirection(Map& UserMap);
 	void ChooseStrategy(Map& UserMap);
 	void ChangeStrategy(Map& UserMap);
 	void UpdateTacticList(Map& UserMap);
-	void UpdateTacticList(Map& UserMap, vector<pair<int, int>>& BorderList);
 	bool ContainsCell(vector<pair<int, int>>& TacticList, pair<int, int>& coords);
 	bool isLocatorCell();
 	bool isLocatorCell(int& row, int& col);
 	bool EndChess(Map& UserMap);
-	friend class Map;
+public:
+	Computer();
+	bool Strike(Map& UserMap, bool& isSunk);
+	void UpdateTacticList(Map& UserMap, vector<pair<int, int>>& BorderList);
 };

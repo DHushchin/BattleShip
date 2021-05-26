@@ -22,16 +22,16 @@ Result::Result(State& state) {
     ResSprite.setTexture(ResTexture);
     ResSprite.setPosition(0, 0);
 
+    ResWindow.clear();
+    ResWindow.draw(ResSprite);
+    ResWindow.display();
+
     while (ResWindow.isOpen())
     {
         while (ResWindow.pollEvent(ResEvent)) {
             if (ResEvent.type == Event::Closed) {
                 ResWindow.close();
             }
-        }
-        ResWindow.clear();
-        ResWindow.draw(ResSprite);
-        ResWindow.display();
- 
+        } 
     }
 }

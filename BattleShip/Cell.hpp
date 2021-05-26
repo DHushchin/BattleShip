@@ -24,7 +24,4 @@ public:
 	bool getBlocked();
 	bool getBoat();
 	bool getHit();
-	void color() {
-		sprite.setColor(sf::Color(192, 192, 192));
-	}
 };

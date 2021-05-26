@@ -14,20 +14,20 @@ private:
 	vector<pair<int, int>> BorderCoords;
 	int Hits;
 	bool Over, ShowBoats, Border;
+private:
+	void setBoatList();
+	void setBoats();
+	bool FreeSpace(Boat& boat);
+	void setBorderCoords(Boat& boat);
+	void setBorder(Boat& boat);
+	bool Contains(Boat& boat);
 public:
 	Map();
 	Map(int i_start, int j_start, bool ShowBoats);
 	Cell* getCell(int i, int j);
-	void setBoatList();
-	void setBoats();
-	bool FreeSpace(Boat& boat);
 	bool setClick(sf::RenderWindow& window, sf::Event& GameEvent, sf::RenderWindow& MenuWindow, bool& isSunk);
-	void setBorderCoords(Boat& boat);
 	vector<pair<int, int>> getBorderCoords();
-	void setBorder(Boat& boat);
 	bool isOver();
-	int getHits();
 	int getSunkNumber();
 	bool Strike(int i, int j, bool& isSunk);
-	bool Contains(Boat& boat);
 };

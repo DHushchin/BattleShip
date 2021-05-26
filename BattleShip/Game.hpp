@@ -19,9 +19,10 @@ private:
 	Map UserMap, CompMap;
 	bool GameOver;
 	sf::Music music;
+private:
+	void Turn();
+	bool Player(Map& CompMap, sf::RenderWindow& window, sf::RenderWindow& MenuWindow, bool& isSunk);
 public:
 	Game();
 	Game(sf::RenderWindow& MenuWindow);
-	void Turn();
-	bool Player(Map& CompMap, sf::RenderWindow& window, sf::RenderWindow& MenuWindow, bool& isSunk);
 };
